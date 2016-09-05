@@ -32,6 +32,8 @@ public class ListMapInV8 {
 		System.out.println("filter for list stream:");
 		result.stream().filter(i -> i == 30).forEach(System.out::println);
 		result2.stream().filter(s -> s.equals("apple")).forEach(System.out::println);
+
+		result2.forEach(item -> System.out.println("Item : " + item));
 	}
 
 	public static void listTomap() {
@@ -53,6 +55,8 @@ public class ListMapInV8 {
 				.collect(Collectors.toMap(x -> r.nextInt(x.length() + x.length()), x -> x.toString()));
 
 		System.out.println("Result 2 : " + result2);
+
+		result2.forEach((k, v) -> System.out.println("key : " + k + " value : " + v));
 
 	}
 
