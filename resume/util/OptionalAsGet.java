@@ -40,9 +40,15 @@ public class OptionalAsGet {
 
 	}
 
+	/*
 	public static void doSomething(String a) {
 		System.out.println("doSomething called " + a);
 	}
+	*/
+	
+	public static<T extends Object> void doSomething(T a) {
+		System.out.println("doSomething called " + a);
+	}	
 
 	public class LoyaltyCard {
 		private String cardNumber;
