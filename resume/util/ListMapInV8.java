@@ -4,15 +4,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
 import java.util.stream.Collectors;
+
+import org.jooq.lambda.Seq;
+import org.jooq.lambda.tuple.Tuple;
+import org.jooq.lambda.tuple.Tuple2;
 
 public class ListMapInV8 {
 
 	public static void main(String[] args) {
 		// mapTolist();
 		listTomap();
-
+		forbiddenV8Stream();
 	}
 
 	public static void mapTolist() {
@@ -58,6 +63,42 @@ public class ListMapInV8 {
 
 		result2.forEach((k, v) -> System.out.println("key : " + k + " value : " + v));
 
+	}
+	
+	public static void forbiddenV8Stream(){
+        Map<Integer, String> map1 = new HashMap<>();
+        map1.put(10, "apple");
+        map1.put(20, "orange");
+        map1.put(30, "banana");
+        map1.put(40, "watermelon");
+        map1.put(50, "dragonfruit");
+        
+        //JOOL lib
+        Tuple2<List<Integer>, List<String>> result1 = 
+        		map1.entrySet()
+        		    .stream()
+        		    .collect(Tuple.collectors(
+        		        Collectors.mapping(Entry::getKey, Collectors.toList()),
+        		        Collectors.mapping(Entry::getValue, Collectors.toList())
+        		    ));
+        System.out.println(result1.v1);
+        System.out.println(result1.v2);
+        
+        Map<Integer, String> map2 = new HashMap<>();
+        map2.put(10, "apple");
+        map2.put(20, "orange");
+        map2.put(30, "banana");
+        map2.put(40, "watermelon");
+        map2.put(50, "dragonfruit");
+        Tuple2<List<Integer>, List<String>> result2 = 
+        		Seq.seq(map2)
+        		   .collect(
+        		        Collectors.mapping(Tuple2::v1, Collectors.toList()),
+        		        Collectors.mapping(Tuple2::v2, Collectors.toList())
+        		   );
+        System.out.println(result2.v1);
+        System.out.println(result2.v2);
+        
 	}
 
 }
